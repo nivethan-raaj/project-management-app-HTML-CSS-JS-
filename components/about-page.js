@@ -85,22 +85,65 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* Course & Professor */}
+        <div className="mb-16">
+          <div className="bg-[hsl(220,15%,14%)] rounded-xl border border-[hsl(220,12%,20%)] p-8 text-center">
+            <div className="w-14 h-14 rounded-full bg-[hsl(210,80%,56%,0.12)] flex items-center justify-center mx-auto mb-4">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="hsl(210,80%,56%)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" /><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+              </svg>
+            </div>
+            <p className="text-xs uppercase tracking-widest text-[hsl(210,80%,56%)] font-semibold mb-2">Academic Project</p>
+            <h2 className="text-2xl font-bold text-[hsl(210,20%,95%)] mb-1">Web Development</h2>
+            <p className="text-[hsl(215,15%,55%)] mb-4">Course Project</p>
+            <div className="inline-flex items-center gap-2 bg-[hsl(220,15%,18%)] rounded-lg px-5 py-2.5 border border-[hsl(220,12%,24%)]">
+              <span className="text-sm text-[hsl(215,15%,55%)]">Under the guidance of</span>
+              <span className="text-sm font-semibold text-[hsl(210,20%,92%)]">Dr. Meenakshi S P</span>
+            </div>
+          </div>
+        </div>
+
         {/* Team */}
         <div className="mb-16">
           <h2 className="text-2xl font-bold text-[hsl(210,20%,95%)] text-center mb-8">Meet the Team</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { name: "Alex Chen", role: "CEO & Founder" },
-              { name: "Sarah Miller", role: "Head of Product" },
-              { name: "James Wilson", role: "Lead Engineer" },
-              { name: "Priya Sharma", role: "Head of Design" },
+              { name: "Lakshya S", regNo: "24BAI0154", color: "hsl(210,80%,56%)" },
+              { name: "Madhumitha", regNo: "24BDS0421", color: "hsl(142,72%,42%)" },
+              { name: "Ashwini", regNo: "24BAI0320", color: "hsl(38,92%,50%)" },
+              { name: "Pradeepa", regNo: "24BAI0313", color: "hsl(0,72%,58%)" },
             ].map((m, i) => (
               <div key={i} className="text-center">
-                <div className="w-20 h-20 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl font-bold text-[hsl(0,0%,100%)]" style={{ backgroundColor: ["hsl(210,80%,56%)", "hsl(142,72%,42%)", "hsl(38,92%,50%)", "hsl(280,65%,60%)"][i] }}>
+                <div className="w-20 h-20 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl font-bold text-[hsl(0,0%,100%)]" style={{ backgroundColor: m.color }}>
                   {m.name.charAt(0)}
                 </div>
                 <h3 className="text-sm font-semibold text-[hsl(210,20%,92%)]">{m.name}</h3>
-                <p className="text-xs text-[hsl(215,15%,50%)]">{m.role}</p>
+                <p className="text-xs text-[hsl(215,15%,50%)] font-mono">{m.regNo}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Technologies Used */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold text-[hsl(210,20%,95%)] text-center mb-8">Technologies Used</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {[
+              { name: "HTML5", desc: "Semantic markup and page structure", icon: "H", color: "hsl(14,100%,53%)" },
+              { name: "CSS3", desc: "Styling, animations, and responsive design", icon: "C", color: "hsl(210,80%,56%)" },
+              { name: "JavaScript", desc: "Client-side logic and interactivity", icon: "JS", color: "hsl(50,100%,50%)" },
+              { name: "React", desc: "Component-based UI rendering", icon: "R", color: "hsl(193,95%,68%)" },
+              { name: "Next.js", desc: "Server-side rendering and routing", icon: "N", color: "hsl(0,0%,80%)" },
+              { name: "Tailwind CSS", desc: "Utility-first CSS framework", icon: "T", color: "hsl(198,93%,60%)" },
+            ].map((tech, i) => (
+              <div key={i} className="bg-[hsl(220,15%,14%)] rounded-xl border border-[hsl(220,12%,20%)] p-5 flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-bold text-[hsl(0,0%,100%)]" style={{ backgroundColor: tech.color }}>
+                  {tech.icon}
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-[hsl(210,20%,92%)]">{tech.name}</h3>
+                  <p className="text-xs text-[hsl(215,15%,50%)] leading-relaxed mt-0.5">{tech.desc}</p>
+                </div>
               </div>
             ))}
           </div>

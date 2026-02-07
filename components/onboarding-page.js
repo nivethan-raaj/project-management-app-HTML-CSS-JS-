@@ -8,7 +8,6 @@ const STEPS = [
   { key: "tools", title: "What tools do you use?", subtitle: "ProjectFlow connects to tools your team uses every day. Understanding your tools will help us tailor the right features for your team." },
   { key: "teamSize", title: "How big is your team?", subtitle: "This helps us recommend the best setup for your team size." },
   { key: "projectSetup", title: "What do you want to manage first?", subtitle: "Pick what you want to start with. You can always add more later." },
-  { key: "layout", title: "What layout works best?", subtitle: "You can change this later. Choose the view that suits your workflow." },
 ];
 
 const ROLES = [
@@ -108,15 +107,8 @@ const MANAGE_OPTIONS = [
   { label: "Something else", desc: "Tell us what you need and we'll help set it up.", icon: "star" },
 ];
 
-const LAYOUTS = [
-  { key: "list", label: "List", desc: "List is great for tracking work.", icon: "list" },
-  { key: "board", label: "Board", desc: "Board is great for moving work through stages.", icon: "board" },
-  { key: "timeline", label: "Timeline", desc: "Timeline is great for visualizing deadlines.", icon: "timeline" },
-  { key: "calendar", label: "Calendar", desc: "Calendar is great for scheduling work.", icon: "calendar" },
-];
-
 export default function OnboardingPage() {
-  const { user, completeOnboarding } = useApp();
+  const { completeOnboarding } = useApp();
   const [step, setStep] = useState(0);
   const [data, setData] = useState({
     role: "",
@@ -125,7 +117,6 @@ export default function OnboardingPage() {
     tools: [],
     teamSize: "",
     manageFirst: "",
-    projectLayout: "list",
   });
 
   const currentStep = STEPS[step];
@@ -134,10 +125,9 @@ export default function OnboardingPage() {
   const canContinue = () => {
     switch (step) {
       case 0: return data.role && data.workFunction && data.useCase;
-      case 1: return true; // tools are optional
+      case 1: return true;
       case 2: return data.teamSize;
       case 3: return data.manageFirst;
-      case 4: return data.projectLayout;
       default: return true;
     }
   };
@@ -310,31 +300,6 @@ export default function OnboardingPage() {
               ))}
             </div>
           )}
-
-          {/* Step 4: Layout preference */}
-          {step === 4 && (
-            <div className="grid grid-cols-2 gap-4">
-              {LAYOUTS.map((l) => (
-                <button
-                  key={l.key}
-                  onClick={() => setData((p) => ({ ...p, projectLayout: l.key }))}
-                  className={`p-5 rounded-xl border text-center transition-all ${
-                    data.projectLayout === l.key
-                      ? "bg-[hsl(210,80%,56%,0.08)] border-[hsl(210,80%,56%)]"
-                      : "bg-[hsl(220,15%,14%)] border-[hsl(220,12%,22%)] hover:border-[hsl(220,12%,30%)]"
-                  }`}
-                >
-                  <div className="flex items-center justify-center mb-3">
-                    <LayoutIcon type={l.icon} active={data.projectLayout === l.key} />
-                  </div>
-                  <p className={`text-sm font-semibold mb-1 ${data.projectLayout === l.key ? "text-[hsl(210,80%,65%)]" : "text-[hsl(210,20%,88%)]"}`}>
-                    {l.label}
-                  </p>
-                  <p className="text-xs text-[hsl(215,15%,50%)]">{l.desc}</p>
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Continue Button */}
@@ -370,7 +335,6 @@ export default function OnboardingPage() {
             {step === 1 && "Connect your favorite tools to bring all your work into one place."}
             {step === 2 && "We'll optimize the workspace based on your team size."}
             {step === 3 && "Start with what matters most. You can always expand later."}
-            {step === 4 && "Choose how you want to see your work. Switch anytime."}
           </p>
         </div>
       </div>
@@ -384,17 +348,15 @@ function OnboardingIllustration({ step }) {
     "hsl(142,72%,42%)",
     "hsl(38,92%,50%)",
     "hsl(0,72%,60%)",
-    "hsl(280,65%,60%)",
   ];
   return (
     <div className="w-40 h-40 rounded-full bg-[hsl(210,80%,56%,0.06)] flex items-center justify-center mx-auto border border-[hsl(210,80%,56%,0.12)]">
       <div className="w-28 h-28 rounded-full bg-[hsl(210,80%,56%,0.08)] flex items-center justify-center border border-[hsl(210,80%,56%,0.1)]">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={colors[step]} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={colors[step] || colors[0]} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           {step === 0 && <><circle cx="12" cy="7" r="4" /><path d="M5.5 21a7.5 7.5 0 0113 0" /></>}
           {step === 1 && <><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></>}
           {step === 2 && <><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" /></>}
           {step === 3 && <><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" /></>}
-          {step === 4 && <><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></>}
         </svg>
       </div>
     </div>
@@ -411,18 +373,6 @@ function ManageIcon({ type, active }) {
       {type === "briefcase" && <><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" /></>}
       {type === "calendar" && <><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></>}
       {type === "star" && <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />}
-    </svg>
-  );
-}
-
-function LayoutIcon({ type, active }) {
-  const color = active ? "hsl(210,80%,56%)" : "hsl(215,15%,55%)";
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      {type === "list" && <><line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" /><line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" /></>}
-      {type === "board" && <><rect x="2" y="3" width="6" height="18" rx="1" /><rect x="9" y="3" width="6" height="12" rx="1" /><rect x="16" y="3" width="6" height="15" rx="1" /></>}
-      {type === "timeline" && <><line x1="3" y1="3" x2="3" y2="21" /><rect x="6" y="5" width="10" height="3" rx="1" /><rect x="8" y="11" width="12" height="3" rx="1" /><rect x="5" y="17" width="8" height="3" rx="1" /></>}
-      {type === "calendar" && <><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /><rect x="6" y="13" width="3" height="2" rx="0.5" /><rect x="11" y="13" width="3" height="2" rx="0.5" /></>}
     </svg>
   );
 }
