@@ -110,7 +110,7 @@ export default function AboutPage() {
             {[
               { name: "Lakshya S", regNo: "24BAI0154", color: "hsl(210,80%,56%)" },
               { name: "Madhumitha", regNo: "24BDS0421", color: "hsl(142,72%,42%)" },
-              { name: "Ashwini", regNo: "24BAI0320", color: "hsl(38,92%,50%)" },
+              { name: "Ashwini", regNo: "24BAI", color: "hsl(38,92%,50%)" },
               { name: "Pradeepa", regNo: "24BAI0313", color: "hsl(0,72%,58%)" },
             ].map((m, i) => (
               <div key={i} className="text-center">
