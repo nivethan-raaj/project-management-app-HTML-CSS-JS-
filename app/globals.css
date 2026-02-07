@@ -101,3 +101,26 @@ body {
 .animate-scale-in {
   animation: scaleIn 0.2s ease-out forwards;
 }
+
+/* Form input base style */
+.form-input {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  background-color: hsl(220, 15%, 14%);
+  border: 1px solid hsl(220, 12%, 22%);
+  border-radius: 0.5rem;
+  color: hsl(210, 20%, 90%);
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-input::placeholder {
+  color: hsl(215, 15%, 40%);
+}
+.form-input:focus {
+  outline: none;
+  border-color: hsl(210, 80%, 56%);
+  box-shadow: 0 0 0 1px hsl(210, 80%, 56%);
+}
+select.form-input {
+  appearance: auto;
+}
