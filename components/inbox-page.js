@@ -4,88 +4,15 @@ import { useState } from "react";
 import { useApp } from "@/lib/app-context";
 
 export default function InboxPage() {
-  const { user } = useApp();
+  const { notifications, markNotificationRead, markAllNotificationsRead, deleteNotification } = useApp();
   const [activeTab, setActiveTab] = useState("all");
 
-  const notifications = [
-    {
-      id: 1,
-      type: "task_assigned",
-      title: "New task assigned to you",
-      message: "Alice assigned \"Design homepage mockup\" to you in Website Redesign.",
-      time: "2 hours ago",
-      read: false,
-      avatar: "A",
-      color: "hsl(210,80%,56%)",
-    },
-    {
-      id: 2,
-      type: "comment",
-      title: "New comment on your task",
-      message: "Bob commented on \"Set up CI/CD pipeline\": \"Looks good, let's deploy to staging first.\"",
-      time: "4 hours ago",
-      read: false,
-      avatar: "B",
-      color: "hsl(142,72%,42%)",
-    },
-    {
-      id: 3,
-      type: "status_update",
-      title: "Project status updated",
-      message: "Mobile App Development status changed from \"On track\" to \"At risk\".",
-      time: "6 hours ago",
-      read: true,
-      avatar: "C",
-      color: "hsl(38,92%,50%)",
-    },
-    {
-      id: 4,
-      type: "due_soon",
-      title: "Task due tomorrow",
-      message: "\"User authentication module\" is due tomorrow. Mark it as complete or update the due date.",
-      time: "8 hours ago",
-      read: true,
-      avatar: "!",
-      color: "hsl(0,72%,51%)",
-    },
-    {
-      id: 5,
-      type: "mention",
-      title: "You were mentioned",
-      message: "Diana mentioned you in Marketing Campaign Q1: \"@" + (user?.name || "you") + " can you review the content plan?\"",
-      time: "1 day ago",
-      read: true,
-      avatar: "D",
-      color: "hsl(280,65%,60%)",
-    },
-    {
-      id: 6,
-      type: "completed",
-      title: "Task completed",
-      message: "Eve completed \"Social media content plan\" in Marketing Campaign Q1.",
-      time: "1 day ago",
-      read: true,
-      avatar: "E",
-      color: "hsl(142,72%,42%)",
-    },
-  ];
-
-  const [items, setItems] = useState(notifications);
-
-  const filteredItems = items.filter((n) => {
+  const filteredItems = notifications.filter((n) => {
     if (activeTab === "unread") return !n.read;
     return true;
   });
 
-  const markAllRead = () => {
-    setItems((prev) => prev.map((n) => ({ ...n, read: true })));
-  };
-
-  const toggleRead = (id) => {
-    setItems((prev) => prev.map((n) => (n.id === id ? { ...n, read: !n.read } : n)));
-  };
-
-  const unreadCount = items.filter((n) => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
     <div className="animate-fade-in">
@@ -98,7 +25,7 @@ export default function InboxPage() {
         </div>
         {unreadCount > 0 && (
           <button
-            onClick={markAllRead}
+            onClick={markAllNotificationsRead}
             className="px-4 py-2 text-sm text-[hsl(210,80%,56%)] hover:bg-[hsl(210,80%,56%,0.08)] rounded-lg transition-colors"
           >
             Mark all as read
@@ -139,10 +66,9 @@ export default function InboxPage() {
           </div>
         ) : (
           filteredItems.map((notification) => (
-            <button
+            <div
               key={notification.id}
-              onClick={() => toggleRead(notification.id)}
-              className={`w-full flex items-start gap-4 px-5 py-4 border-b border-[hsl(220,12%,20%)] text-left transition-colors hover:bg-[hsl(220,15%,16%)] ${
+              className={`flex items-start gap-4 px-5 py-4 border-b border-[hsl(220,12%,20%)] transition-colors hover:bg-[hsl(220,15%,16%)] ${
                 !notification.read ? "bg-[hsl(210,80%,56%,0.04)]" : ""
               }`}
             >
@@ -161,9 +87,28 @@ export default function InboxPage() {
                   {notification.title}
                 </p>
                 <p className="text-sm text-[hsl(215,15%,50%)] leading-relaxed">{notification.message}</p>
+                <p className="text-xs text-[hsl(215,15%,40%)] mt-1">{notification.time}</p>
               </div>
-              <span className="text-xs text-[hsl(215,15%,40%)] flex-shrink-0 mt-0.5">{notification.time}</span>
-            </button>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {!notification.read && (
+                  <button
+                    onClick={() => markNotificationRead(notification.id)}
+                    className="px-3 py-1 text-xs text-[hsl(210,80%,56%)] hover:bg-[hsl(210,80%,56%,0.08)] rounded transition-colors"
+                  >
+                    Mark read
+                  </button>
+                )}
+                <button
+                  onClick={() => deleteNotification(notification.id)}
+                  className="p-1.5 hover:bg-[hsl(220,15%,22%)] rounded transition-colors text-[hsl(215,15%,45%)] hover:text-[hsl(0,72%,60%)]"
+                  title="Delete notification"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                  </svg>
+                </button>
+              </div>
+            </div>
           ))
         )}
       </div>
