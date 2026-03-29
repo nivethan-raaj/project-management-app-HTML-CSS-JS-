@@ -1,7 +1,14 @@
-"use server";
-
 export async function POST(request) {
   const { messages } = await request.json();
+
+  const apiKey = process.env.GROQ_API_KEY;
+
+  if (!apiKey) {
+    return Response.json(
+      { error: "Groq API key is not configured." },
+      { status: 500 }
+    );
+  }
 
   const systemMessage = {
     role: "system",
@@ -29,7 +36,7 @@ Keep responses concise, helpful, and friendly. Use bullet points when listing st
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+        "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -43,7 +50,7 @@ Keep responses concise, helpful, and friendly. Use bullet points when listing st
 
     if (!response.ok) {
       const errorData = await response.text();
-      console.error("[v0] Groq API error:", errorData);
+      console.error("Groq API error:", errorData);
       return Response.json(
         { error: "Failed to get response from AI" },
         { status: 500 }
@@ -55,7 +62,7 @@ Keep responses concise, helpful, and friendly. Use bullet points when listing st
 
     return Response.json({ reply });
   } catch (error) {
-    console.error("[v0] Chatbot error:", error);
+    console.error("Chatbot error:", error);
     return Response.json(
       { error: "Something went wrong. Please try again." },
       { status: 500 }
