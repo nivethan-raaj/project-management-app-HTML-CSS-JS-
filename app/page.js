@@ -16,6 +16,7 @@ import PortfoliosPage from "@/components/portfolios-page";
 import ReportingPage from "@/components/reporting-page";
 import SettingsPage from "@/components/settings-page";
 import { AddTaskPage, AddProjectPage, AddGoalPage } from "@/components/form-pages";
+import Chatbot from "@/components/chatbot";
 
 /* Notification Dropdown Component */
 function NotificationDropdown({ onClose }) {
@@ -357,6 +358,9 @@ function AppContent() {
 
       {/* Search Overlay */}
       {showSearch && <SearchOverlay onClose={() => setShowSearch(false)} />}
+
+      {/* AI Chatbot */}
+      <Chatbot />
     </div>
   );
 }

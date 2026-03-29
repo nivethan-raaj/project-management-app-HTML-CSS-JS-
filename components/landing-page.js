@@ -157,8 +157,8 @@ export default function LandingPage() {
         <h2 className="text-3xl font-bold text-[hsl(210,20%,95%)] text-center mb-12 text-balance">Simple, transparent pricing</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { name: "Free", price: "$0", desc: "For individuals", features: ["Up to 5 projects", "Basic task management", "List & Board views"] },
-            { name: "Pro", price: "$12", desc: "Per user / month", features: ["Unlimited projects", "All views", "Goals & reporting", "Priority support"], popular: true },
+            { name: "Free", price: "\u20B90", desc: "For individuals", features: ["Up to 5 projects", "Basic task management", "List & Board views"] },
+            { name: "Pro", price: "\u20B9999", desc: "Per user / month", features: ["Unlimited projects", "All views", "Goals & reporting", "Priority support"], popular: true },
             { name: "Enterprise", price: "Custom", desc: "For large teams", features: ["Everything in Pro", "SSO & SAML", "Custom integrations", "Dedicated support"] },
           ].map((p, i) => (
             <div key={i} className={`rounded-xl border p-6 ${p.popular ? "border-[hsl(210,80%,56%)] bg-[hsl(210,80%,56%,0.06)]" : "border-[hsl(220,12%,18%)] bg-[hsl(220,15%,12%)]"}`}>
