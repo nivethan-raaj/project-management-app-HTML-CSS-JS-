@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
-  // Only use Supabase middleware if configured
-  if (
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  ) {
-    const { updateSession } = await import("@/lib/supabase/middleware");
-    return await updateSession(request);
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (supabaseUrl && supabaseKey) {
+      const { updateSession } = await import("@/lib/supabase/middleware");
+      return await updateSession(request);
+    }
+  } catch (e) {
+    // Supabase not configured yet - skip gracefully
   }
   return NextResponse.next();
 }
